@@ -42,6 +42,11 @@ public class ExaminationInformation {
 
         // Enter search term and click search button
         $x("//*[@id=\"enkel_sokfalt\"]").sendKeys("test av");
+
         $x("//*[@id=\"enkel_sokknapp\"]").click();
+        // Vad händer med denna kommentaren2
+        // Vad händer med denna kommentaren1
+        // Vad händer med denna kommentaren1
+        // Vad händer med denna kommentaren1
     }
 }
