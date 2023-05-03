@@ -26,6 +26,5 @@ public class EventLogger {
         Kernel32.INSTANCE.CloseHandle(h);
     }
 
-
 }
 
