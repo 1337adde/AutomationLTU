@@ -8,6 +8,6 @@ public class App
     {
         LoginLogout.login();
         ExaminationInformation.find();
-        LoginLogout.logout();
+        // LoginLogout.logout();
     }
 }

@@ -23,12 +23,15 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
+import static com.codeborne.selenide.Selenide.screenshot;
+
 public class LoginLogout {
         public static void login() {
             // Set the path to the WebDriver executable (e.g., ChromeDriver)
             WebDriverManager.chromedriver().setup();
             Configuration.browser = "chrome";
             Configuration.holdBrowserOpen = true;
+            Configuration.reportsFolder = "/target/downloads";
 
             open("https://www.ltu.se");
             $x("//button[@id='CybotCookiebotDialogBodyButtonDecline']").click(); // Accept cookies
