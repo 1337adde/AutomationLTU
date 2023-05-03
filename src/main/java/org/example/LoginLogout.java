@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,6 +20,7 @@ import java.io.IOException;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class LoginLogout {
         public static void login() {
@@ -53,8 +55,8 @@ public class LoginLogout {
         }
 
         public static void logout() {
+            open("https://ltu.se");
             $x("//*[@id=\"_145_userAvatar\"]/a").shouldBe(visible).click(); // User name
             $x("//li[contains(@class, 'sign-out')]").shouldBe(visible).click(); // Logout
-
         }
 }

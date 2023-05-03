@@ -1,5 +1,6 @@
 package org.example;
 
+import com.codeborne.selenide.SelenideDriver;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -19,9 +20,28 @@ import java.io.IOException;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
+import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ExaminationInformation {
     public static void find() {
-        $x("//img[@id='title']").click();
+
+        WebDriver driver = getWebDriver();
+
+
+        // Find & click the link to Kronox
+        $x("//*[contains(text(), 'Tentamen')]").click();
+        $x("//*[contains(text(), ' Tentamensschema')]").click();
+
+        String orignialTab = driver.getWindowHandle();
+
+
+        // Enter search term and click search button
+        $x("//*[@id=\"enkel_sokfalt\"]").sendKeys("test av");
+        $x("//*[@id=\"enkel_sokknapp\"]").click();
     }
 }
