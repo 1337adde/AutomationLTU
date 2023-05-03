@@ -2,6 +2,7 @@ package org.example;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.jna.platform.win32.WinNT;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -48,6 +49,11 @@ public class LoginLogout {
                 $x("//*[@id=\"username\"]").sendKeys(email);
                 $x("//input[@id='password']").sendKeys(password);
                 $x("//input[@name='submit']").click();
+
+                // Logs successful login to Windows Event Viewer
+                String logMessage = "User " + email + " logged in successfully.";
+                //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_SUCCESS);
+                EventLogger.logUserLogin("Hejhejhej!", WinNT.EVENTLOG_SUCCESS);
 
             } catch (IOException e) {
                 System.out.println("IOException, create a log for this!");
