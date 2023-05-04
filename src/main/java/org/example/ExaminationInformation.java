@@ -33,7 +33,7 @@ import java.io.*;
 import org.openqa.selenium.*;
 
 public class ExaminationInformation {
-    public static void find() {git
+    public static void find() {
 
 
         // Find & click the link to Kronox
