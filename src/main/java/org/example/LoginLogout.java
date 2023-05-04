@@ -24,6 +24,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 import static com.codeborne.selenide.Selenide.screenshot;
+import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
 public class LoginLogout {
         public static void login() {
@@ -54,9 +55,11 @@ public class LoginLogout {
                 $x("//input[@name='submit']").click();
 
                 // Logs successful login to Windows Event Viewer
+                 if($x("//*[contains(text(), 'Canvas och schema')]").exists()) {
                 String logMessage = "User " + email + " logged in successfully.";
                 //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_SUCCESS);
-                EventLogger.logUserLogin("Hejhejhej!", WinNT.EVENTLOG_SUCCESS);
+                EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+                 }
 
             } catch (IOException e) {
                 System.out.println("IOException, create a log for this!");
