@@ -1,40 +1,10 @@
 package org.example;
 
-import com.codeborne.selenide.SelenideDriver;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.io.IOException;
-
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.chrome.ChromeDriver;
-import java.io.*;
-import org.openqa.selenium.*;
 
 public class ExaminationInformation {
-    public static void find() {
-
+    public static void find() throws Exception {
 
         // Find & click the link to Kronox
         $x("//*[contains(text(), 'Tentamen')]").click();
@@ -51,5 +21,7 @@ public class ExaminationInformation {
         switchTo().window(2);
 
         // Add screenshot function here
+        $x("/html/body/table[2]/tbody/tr/td/a[1]").shouldBe(visible);
+        Screenshot.take("Examination Information");
     }
 }
