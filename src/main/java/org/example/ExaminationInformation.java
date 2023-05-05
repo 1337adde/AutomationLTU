@@ -50,7 +50,6 @@ public class ExaminationInformation {
 
         switchTo().window(2);
 
-        Screenshot.take("Examinations");
-
+        // Add screenshot function here
     }
 }

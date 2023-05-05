@@ -60,6 +60,12 @@
       <artifactId>commons-imaging</artifactId>
       <version>1.0-alpha3</version><!--Current version 2023-05-03-->
     </dependency>
+    <dependency>
+      <groupId>com.codeborne</groupId>
+      <artifactId>selenide-full-screenshot</artifactId>
+      <version>6.7.0</version>
+    </dependency>
+
 
   </dependencies>
 </project>
