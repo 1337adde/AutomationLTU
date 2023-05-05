@@ -13,16 +13,39 @@ import com.sun.jna.ptr.PointerByReference;
 import com.sun.jna.Memory;
 import com.sun.jna.WString;
 public class EventLogger {
-    private static final String APP_NAME = "AutomationLTU";
 
-    public static void logUserLogin(String message, int eventLogType) {
+    /*
+    Eventlog types:
+
+    (EVENTLOG_SUCCESS, treated same as INFORMATION)
+
+    EVENTLOG_AUDIT_FAILURE
+
+    EVENTLOG_AUDIT_SUCCESS
+
+    EVENTLOG_ERROR_TYPE
+
+    EVENTLOG_INFORMATION_TYPE
+
+    EVENTLOG_WARNING_TYPE
+
+    */
+
+    private static final String APP_NAME = "AutomationLTU";
+    public static void log(String message, int eventLogType) { // Message will be displayed in Event Viewer "Info" tab.
         HANDLE h = Advapi32.INSTANCE.RegisterEventSource(null, APP_NAME);
-        String[] strings = new String[1];
-        strings[0] = message;
-        // Allocating bytes to memory, chars in java are 16bytes
-        Pointer p = new Memory((strings[0].length() + 1) * Native.WCHAR_SIZE);
-        p.setWideString(0, strings[0]);
-        Advapi32.INSTANCE.ReportEvent(h, eventLogType, 0, 0, null, 1, 0, new String[]{p.getString(0)}, null);
+        WString wMessage = new WString(message); // Wide character format required for Event Viewer
+        Advapi32.INSTANCE.ReportEvent(
+                h,
+                eventLogType,
+                0,
+                0,
+                null,
+                1,
+                0,
+                new String[]{wMessage.toString()},
+                null
+        );
         Kernel32.INSTANCE.CloseHandle(h);
     }
 
