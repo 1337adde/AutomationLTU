@@ -34,6 +34,7 @@ public class LoginLogout {
             Configuration.browser = "chrome";
             Configuration.holdBrowserOpen = true;
             Configuration.reportsFolder = "/target/downloads";
+            Configuration.downloadsFolder = "build/downloads";
 
             open("https://www.ltu.se");
             $x("//button[@id='CybotCookiebotDialogBodyButtonDecline']").click(); // Accept cookies
