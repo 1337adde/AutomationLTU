@@ -1,7 +1,13 @@
 package org.example;
 
+import com.codeborne.selenide.ex.TimeoutException;
+
+import java.util.NoSuchElementException;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
+import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
+import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
 public class ExaminationInformation {
     public static void find() throws Exception {
@@ -16,12 +22,26 @@ public class ExaminationInformation {
         $x("//*[@id=\"enkel_sokfalt\"]").sendKeys("test av");
         $x("//*[@id=\"enkel_sokknapp\"]").click();
 
-        $x("//*[contains(text(), 'I0015N-VT23-47000')]").click();
+       try {
+           $x("//*[contains(text(), 'I0015N-VT23-47000')]").shouldBe(visible).click();
 
-        switchTo().window(2);
+           switchTo().window(2);
 
-        // Add screenshot function here
-        $x("/html/body/table[2]/tbody/tr/td/a[1]").shouldBe(visible);
-        Screenshot.take("Examination Information");
+           // Add screenshot function here
+           $x("/html/body/table[2]/tbody/tr/td/a[1]").shouldBe(visible);
+           Screenshot.take("final_examination");
+
+           if ($x("/html/body/table[2]/tbody/tr/td/a[1]").exists()) {
+               //Log the examination date
+               String examDate = $x("/html/body/table[1]/tbody/tr[2]/td/table[2]/tbody/tr[7]/td[3]").getText();
+               String logMessage = "Date of examination is " + examDate + ".";
+               //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_SUCCESS);
+               EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+            }
+       } catch (Throwable t){
+           String logMessage = "Examination could not be found.";
+           //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_ERROR_TYPE);
+           EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
+       }
     }
 }

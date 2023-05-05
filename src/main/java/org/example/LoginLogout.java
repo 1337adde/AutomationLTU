@@ -24,6 +24,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 import static com.codeborne.selenide.Selenide.screenshot;
+import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
 public class LoginLogout {
@@ -39,10 +40,11 @@ public class LoginLogout {
             $x("//*[@id=\"main-nav\"]/div[3]/div/a[1]").shouldBe(visible).click(); // Student
             $x("//*[@id=\"maincontent\"]/div[1]/div/div[1]/div/div/div[3]/a").shouldBe(visible).click(); // Logga in
 
-            // Creates a new object from an existing .JSON-file containing LTU credentials
-            File jsonFile = new File("c:\\temp\\ltu.json");
+
 
             try {
+                // Creates a new object from an existing .JSON-file containing LTU credentials
+                File jsonFile = new File("c:\\temp\\ltu.json");
                 // Reads the JSON-file and writes the values to variables
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(jsonFile);
@@ -59,10 +61,16 @@ public class LoginLogout {
                 String logMessage = "User " + email + " logged in successfully.";
                 //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_SUCCESS);
                 EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+                 } else {
+                        String logMessage = "Unable to login. Make sure credentials are correct.";
+                        //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_ERROR_TYPE);
+                        EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
                  }
 
             } catch (IOException e) {
-                System.out.println("IOException, create a log for this!");
+                String logMessage = "Unable to login. Make sure credentials are accessible.";
+                //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_ERROR_TYPE);
+                EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
             }
         }
 
