@@ -17,7 +17,7 @@ public class Screenshot {
         BufferedImage screenImage = robot.createScreenCapture(screenSize);
 
         // Save the captured screenshot as a JPEG file
-        File file = new File("build//downloads//" + fileName + ".jpeg");
+        File file = new File("target//downloads//" + fileName + ".jpeg");
         ImageIO.write(screenImage, "jpeg", file);
     }
 }

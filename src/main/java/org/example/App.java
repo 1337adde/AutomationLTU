@@ -12,12 +12,10 @@ public class App
 {
     public static void main( String[] args ) throws Exception {
 
-        Configuration.fileDownload = FileDownloadMode.FOLDER; // Don't seem to make a difference
-        Configuration.reportsFolder = "build/downloads"; // Don't seem to make a difference
-
         LoginLogout.login();
         ExaminationInformation.find();
         CourseSyllabus.find();
         LoginLogout.logout();
+
     }
 }
