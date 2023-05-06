@@ -27,20 +27,18 @@ public class ExaminationInformation {
 
            switchTo().window(2);
 
-           // Add screenshot function here
+           // Takes a screnshot when the web page is fully loaded
            $x("/html/body/table[2]/tbody/tr/td/a[1]").shouldBe(visible);
            Screenshot.take("final_examination");
 
+           //Log the examination date
            if ($x("/html/body/table[2]/tbody/tr/td/a[1]").exists()) {
-               //Log the examination date
                String examDate = $x("/html/body/table[1]/tbody/tr[2]/td/table[2]/tbody/tr[7]/td[3]").getText();
                String logMessage = "Date of examination is " + examDate + ".";
-               //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_SUCCESS);
                EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
             }
-       } catch (Throwable t){
+       } catch (Throwable t) {
            String logMessage = "Examination could not be found.";
-           //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_ERROR_TYPE);
            EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
        }
     }

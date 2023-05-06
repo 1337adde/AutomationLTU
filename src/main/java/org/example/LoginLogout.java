@@ -36,12 +36,11 @@ public class LoginLogout {
             Configuration.reportsFolder = "/target/downloads";
             Configuration.downloadsFolder = "/target/downloads";
 
+            // Navigates to the login page
             open("https://www.ltu.se");
             $x("//button[@id='CybotCookiebotDialogBodyButtonDecline']").click(); // Accept cookies
             $x("//*[@id=\"main-nav\"]/div[3]/div/a[1]").shouldBe(visible).click(); // Student
             $x("//*[@id=\"maincontent\"]/div[1]/div/div[1]/div/div/div[3]/a").shouldBe(visible).click(); // Logga in
-
-
 
             try {
                 // Creates a new object from an existing .JSON-file containing LTU credentials
@@ -57,27 +56,31 @@ public class LoginLogout {
                 $x("//input[@id='password']").sendKeys(password);
                 $x("//input[@name='submit']").click();
 
-                // Logs successful login to Windows Event Viewer
-                 if($x("//*[contains(text(), 'Canvas och schema')]").exists()) {
-                String logMessage = "User " + email + " logged in successfully.";
-                //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_SUCCESS);
-                EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
-                 } else {
+                if($x("//*[contains(text(), 'Canvas och schema')]").exists()) {
+                    String logMessage = "User " + email + " logged in successfully.";
+                    EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+                } else {
                         String logMessage = "Unable to login. Make sure credentials are correct.";
-                        //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_ERROR_TYPE);
                         EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
-                 }
+                }
 
             } catch (IOException e) {
                 String logMessage = "Unable to login. Make sure credentials are accessible.";
-                //EventLogger.logUserLogin(logMessage, WinNT.EVENTLOG_ERROR_TYPE);
                 EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
             }
         }
 
         public static void logout() {
-            switchTo().window(0);
-            $x("//*[@id=\"_145_userAvatar\"]/a").shouldBe(visible).click(); // User name
-            $x("//li[contains(@class, 'sign-out')]").shouldBe(visible).click(); // Logout
+            try {
+                switchTo().window(0);
+                $x("//*[@id=\"_145_userAvatar\"]/a").shouldBe(visible).click(); // User name
+                $x("//li[contains(@class, 'sign-out')]").shouldBe(visible).click(); // Logout
+                String logMessage = "User logged out successfully.";
+                EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+            } catch (Exception e) {
+                String logMessage = "Unable to logout.";
+                EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
+            }
         }
+
 }
