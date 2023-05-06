@@ -28,7 +28,8 @@ import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
 public class LoginLogout {
-        public static void login() {
+    static String endURL = "";
+        public static String login() {
             // Set the path to the WebDriver executable (e.g., ChromeDriver)
             WebDriverManager.chromedriver().setup();
             Configuration.browser = "chrome";
@@ -59,27 +60,32 @@ public class LoginLogout {
                 if($x("//*[contains(text(), 'Canvas och schema')]").exists()) {
                     String logMessage = "User " + email + " logged in successfully.";
                     EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+                    endURL = getWebDriver().getCurrentUrl();
                 } else {
                         String logMessage = "Unable to login. Make sure credentials are correct.";
                         EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
+                        endURL = getWebDriver().getCurrentUrl();
                 }
 
             } catch (IOException e) {
                 String logMessage = "Unable to login. Make sure credentials are accessible.";
                 EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
             }
+            return endURL;
         }
 
-        public static void logout() {
+        public static String logout() {
             try {
                 switchTo().window(0);
                 $x("//*[@id=\"_145_userAvatar\"]/a").shouldBe(visible).click(); // User name
                 $x("//li[contains(@class, 'sign-out')]").shouldBe(visible).click(); // Logout
                 String logMessage = "User logged out successfully.";
                 EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+                return endURL = getWebDriver().getCurrentUrl();
             } catch (Exception e) {
                 String logMessage = "Unable to logout.";
                 EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
+                return endURL = getWebDriver().getCurrentUrl();
             }
         }
 
