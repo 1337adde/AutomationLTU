@@ -16,6 +16,7 @@ public class App
         ExaminationInformation.find();
         CourseSyllabus.find();
         LoginLogout.logout();
+        StudentTranscript.find();
 
     }
 }
