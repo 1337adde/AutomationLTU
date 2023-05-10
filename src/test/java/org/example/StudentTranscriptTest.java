@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentTranscriptTest {
@@ -17,7 +18,8 @@ class StudentTranscriptTest {
             try {
                 Files.delete(Paths.get("target/downloads/Transcript2023.pdf"));
             } catch (Exception e) {
-                e.printStackTrace();
+                String exceptionMessage = "Test unable to modify / check for Transcript2023.pdf. Stacktrace:" + e.getMessage();
+                EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
         }
         LoginLogout.login(); // Web Driver and login needed
@@ -27,7 +29,8 @@ class StudentTranscriptTest {
             assertTrue(Files.exists(transcriptPath)); // if true, test is passed
         }
         catch(Exception e){
-            e.printStackTrace();
+            String exceptionMessage = "Test of StudentTranscript unsuccessful, see earlier logs.";
+            EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
         }
 
     }

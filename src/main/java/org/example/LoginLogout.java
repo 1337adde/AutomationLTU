@@ -72,7 +72,7 @@ public class LoginLogout {
                         endURL = getWebDriver().getCurrentUrl();
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 String logMessage = "Unable to login. Make sure credentials are accessible.";
                 EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
             }

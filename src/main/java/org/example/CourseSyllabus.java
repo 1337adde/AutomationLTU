@@ -1,6 +1,7 @@
 package org.example;
 
 import com.codeborne.selenide.*;
+import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.ex.TimeoutException;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
@@ -27,7 +28,7 @@ public class CourseSyllabus {
 
         try {
             $x("//*[contains(text(), 'Kurs och program')]").click();
-            $x("//*[contains(text(), 'Kurskatalog - programstudenter')]").click();
+            $x("//*[contains(text(), 'Kurskatalog - programstudenter')]").click(); // Opens new tab automatically
 
             // Get window index of latest tab opened, and switch to it
             int newTabIndex = WebDriverRunner.getWebDriver().getWindowHandles().toArray().length - 1;
@@ -44,13 +45,13 @@ public class CourseSyllabus {
                 File syllabus = new File("target//downloads//Syllabus2023.pdf");
                 download(downloadUrl).renameTo(syllabus);
             }
-            catch(Exception e){
-                String exceptionMessage = "Syllabus download failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+            catch(ElementNotFound | Exception e){
+                String exceptionMessage = "Syllabus download failed. Stacktrace: " + e.getMessage();
                 EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
         }
-        catch(Exception e){
-            String exceptionMessage = "Navigation to syllabus failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+        catch(ElementNotFound | Exception e){
+            String exceptionMessage = "Navigation to syllabus failed. Stacktrace: " + e.getMessage();
             EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
         }
@@ -60,5 +61,5 @@ public class CourseSyllabus {
 
 
 
-    }
 }
+

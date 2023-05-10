@@ -2,12 +2,13 @@ package org.example;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.ex.ElementNotFound;
 import com.codeborne.selenide.ex.TimeoutException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.io.File;
-import java.util.NoSuchElementException;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
@@ -34,7 +35,7 @@ public class StudentTranscript {
             }
 
             $x("//*[@id=\"searchinput\"]").sendKeys("lulea");
-            $x("//*[contains(text(), 'Lulea University of Technology')]").click();
+            $x("//*[contains(text(), 'Lulea University of Technology')]").shouldBe(visible).click(); // Search sometimes takes more than 4 seconds.
 
             // Depending on screen size the menu list might hide inside hamburger menu , if target element is not visible click on menu.
             if(!$x("//*[contains(text(), 'Transcripts and certificates')]").is(visible)){
@@ -59,37 +60,21 @@ public class StudentTranscript {
                     File transcript = new File("target//downloads//Transcript2023.pdf");
                     download(downloadUrl).renameTo(transcript);
                 }
-
-
-
-                catch(Exception e){
-                    String exceptionMessage = "Transcript download failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+                catch(ElementNotFound | Exception e){
+                    String exceptionMessage = "Transcript download failed. Stacktrace:" + e.getMessage();
                     EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
                 }
+
             }
-            catch(Exception e){
-                String exceptionMessage = "Transcript creation failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+            catch(ElementNotFound | Exception e){
+                String exceptionMessage = "Transcript creation failed. Stacktrace:" + e.getMessage();
                 EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
-        }
 
-        catch(NoSuchElementException e){
-            System.out.println("First catch");
-        String exceptionMessage = "Navigation to Ladok failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+        }
+        catch(ElementNotFound | Exception e){
+        String exceptionMessage = "Navigation to Ladok failed." + "Stacktrace: " + e.getMessage();
         EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
-
-        }
-        catch (TimeoutException e) {
-            System.out.println("Caught TimeoutException");
-            String exceptionMessage = "Navigation to Ladok timed out, stacktrace:" + System.lineSeparator() + e.getMessage();
-            EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
-
-        }
-        catch(Exception e){
-            System.out.println("Second catch");
-            String exceptionMessage = "Navigation to Ladok failed, stacktrace:" + System.lineSeparator() + e.getMessage();
-            EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
-
         }
 
 

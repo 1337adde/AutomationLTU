@@ -1,11 +1,14 @@
 package org.example;
 
+import com.codeborne.selenide.ex.ElementNotFound;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseSyllabusTest {
@@ -17,7 +20,8 @@ class CourseSyllabusTest {
             try {
                 Files.delete(Paths.get("target/downloads/Syllabus2023.pdf"));
             } catch (Exception e) {
-                e.printStackTrace();
+                String exceptionMessage = "Test unable to modify / check for Syllabus2023.pdf. Stacktrace:" + e.getMessage();
+                EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
         }
         LoginLogout.login(); // Web Driver and login needed
@@ -26,8 +30,9 @@ class CourseSyllabusTest {
             Path transcriptPath = Paths.get("target//downloads//Syllabus.pdf");
             assertTrue(Files.exists(transcriptPath)); // if true, test is passed
         }
-        catch(Exception e){
+        catch(ElementNotFound | Exception e){
             e.printStackTrace();
+            // Exceptions are logged in Event Viewer
         }
 
     }
