@@ -13,10 +13,10 @@ public class App
     public static void main( String[] args ) throws Exception {
 
         LoginLogout.login();
-     //   ExaminationInformation.find();
-      //  CourseSyllabus.find();
-   //     LoginLogout.logout();
+        ExaminationInformation.find();
+        CourseSyllabus.find();
         StudentTranscript.find();
+        LoginLogout.logout();
 
     }
 }

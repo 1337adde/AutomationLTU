@@ -10,7 +10,7 @@ import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
 public class ExaminationInformation {
-    public static void find() throws Exception {
+    public static void find() {
 
         // Find & click the link to Kronox
         $x("//*[contains(text(), 'Tentamen')]").click();

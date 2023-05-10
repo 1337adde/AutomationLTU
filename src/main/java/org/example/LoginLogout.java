@@ -18,6 +18,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
@@ -36,6 +39,19 @@ public class LoginLogout {
             Configuration.holdBrowserOpen = true;
             Configuration.reportsFolder = "/target/downloads";
             Configuration.downloadsFolder = "/target/downloads";
+
+            // Creates the downloads folder if it does not already exist
+            Path downloadsFolder = Paths.get("target/downloads");
+            if(!Files.exists(downloadsFolder)) {
+                try {
+                    Files.createDirectory(downloadsFolder);
+                    String logMessage = "Downloads folder created.";
+                    EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
+                } catch (IOException e) {
+                    String logMessage = "Unable to create downloads folder.";
+                    EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
+                }
+            }
 
             // Navigates to the login page
             open("https://www.ltu.se");
