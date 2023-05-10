@@ -15,49 +15,82 @@ import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
 
 public class StudentTranscript {
-    public static void find() throws Exception{
+    public static void find(){
 
         switchTo().window(0); // Back to ltu.se
-        // $x("//*[contains(text(), 'Tentamen')]").click();
-       // $x("(//*[contains(text(), 'Examen')])[3]").click();
-        //     $x("//ul[@class='hasChildren ']//*[contains(text(), 'Examen')]").click();
-        //     $x("//*[@id=\"yui_patched_v3_11_0_1_1683629444821_290\"]").click(); // clicks Examen drop down menu
-        // $(By.xpath("//a[contains(@class, 'hasChildren') and contains(@class, 'active') and contains(@class, 'expand') and contains(text(), 'Examen')]")).click();
-
-        switchTo().window(0); // Back to ltu.se
-        String kursbevisURL = $x("//*[contains(text(), 'kursbevis')]").getAttribute("href");
-        open(kursbevisURL);
-        $x("//*[contains(text(), 'Ansökan')]").click();
-        $x("//*[contains(text(), 'Inloggning via')]").click();
-        $x("//*[@id=\"searchinput\"]").sendKeys("lulea");
-        $x("//*[contains(text(), 'Lulea University of Technology')]").click();
 
 
-        // Depending on screen size the hamburger menu
-        if(!$x("//*[contains(text(), 'Transcripts and certificates')]").is(visible)){
-            $x("//button[@aria-label='Menu']").click();
+        try { // Navigates to transcript creation page (Ladok) from ltu.se
+
+
+            String kursbevisURL = $x("//*[contains(text(), 'kursbevis')]").getAttribute("href");
+            open(kursbevisURL);
+            $x("//*[contains(text(), 'Ansökan')]").click();
+            $x("//*[contains(text(), 'Inloggning via')]").click();
+
+            // clicks away cookies if prompted
+            if($x("//*[contains(text(), 'Only use necessary')]").is(visible)){
+                $x("//*[contains(text(), 'Only use necessary')]").click();
+            }
+
+            $x("//*[@id=\"searchinput\"]").sendKeys("lulea");
+            $x("//*[contains(text(), 'Lulea University of Technology')]").click();
+
+            // Depending on screen size the menu list might hide inside hamburger menu , if target element is not visible click on menu.
+            if(!$x("//*[contains(text(), 'Transcripts and certificates')]").is(visible)){
+                $x("//button[@aria-label='Menu']").click();
+            }
+
+
+            try{ // Specifies type of transcript and creates it
+
+                $x("//*[contains(text(), 'Transcripts and certificates')]").click();
+                $("[title='Create']").click();
+                $x("//*[@id=\"intygstyp\"]").click();
+                $x("//*[contains(text(), 'Certificate of Registration')]").click();
+                $x("//*[contains(text(), 'All registrations arranged by programme')]").click();
+                // Creates the pdf
+                $x("//*[@id=\"main\"]/div/ladok-skapa-intyg/ladok-card/div/div/ladok-card-body/div[3]/div/form/div[3]/div/ladok-skapa-intyg-knapprad/div/button[1]").click();
+
+
+                try{ // downloads the pdf
+
+                    String downloadUrl = $(By.xpath("//a[@title='Open PDF-document in a new window'][1]")).getAttribute("href"); // if more than one created PDF, selects the first (latest) in the list
+                    File transcript = new File("target//downloads//Transcript2023.pdf");
+                    download(downloadUrl).renameTo(transcript);
+                }
+
+
+
+                catch(Exception e){
+                    String exceptionMessage = "Transcript download failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+                    EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
+                }
+            }
+            catch(Exception e){
+                String exceptionMessage = "Transcript creation failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+                EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
+            }
         }
-    //    if($x("//button[@aria-label='Menu']").is()){
-     //       $x("//button[@aria-label='Menu']").click();
 
-        $x("//*[contains(text(), 'Transcripts and certificates')]").click();
-        $("[title='Create']").click();
-        $x("//*[@id=\"intygstyp\"]").click();
-        $x("//*[contains(text(), 'Certificate of Registration')]").click();
-        $x("//*[contains(text(), 'All registrations arranged by programme')]").click();
-      //  $x("//*[@id=\"main\"]/div/ladok-skapa-intyg/ladok-card/div/div/ladok-card-body/div[3]/div/form/div[3]/div/ladok-skapa-intyg-knapprad/div/button[1]").click(); // Creates the pdf
+        catch(NoSuchElementException e){
+            System.out.println("First catch");
+        String exceptionMessage = "Navigation to Ladok failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+        EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
 
-        // downloads the pdf
-     //   String downloadUrl = $(By.xpath("//a[@title='Open PDF-document in a new window'][1]")).getAttribute("href"); // if more than one created PDF, selects the first (latest) in the list
-     //   File transcript = new File("target//downloads//Transcript2023.pdf");
-      //  download(downloadUrl).renameTo(transcript);
+        }
+        catch (TimeoutException e) {
+            System.out.println("Caught TimeoutException");
+            String exceptionMessage = "Navigation to Ladok timed out, stacktrace:" + System.lineSeparator() + e.getMessage();
+            EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
 
+        }
+        catch(Exception e){
+            System.out.println("Second catch");
+            String exceptionMessage = "Navigation to Ladok failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+            EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
 
-
-
-
-
-       // $x("//*[@id=\"p_p_id_56_INSTANCE_6rMpXTVb7gkT_\"]/div/div/div[1]/p[3]/a").click(); // klick on ansökan
+        }
 
 
     }

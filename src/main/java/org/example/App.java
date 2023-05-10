@@ -10,7 +10,7 @@ import java.io.File;
 
 public class App
 {
-    public static void main( String[] args ) throws Exception {
+    public static void main( String[] args ){
 
         LoginLogout.login();
         ExaminationInformation.find();

@@ -8,14 +8,14 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CourseSyllabusTest {
+class StudentTranscriptTest {
 
     @Test
-    void find() {
+    void downloadTranscriptTest() {
         // If the file already exists, delete it
-        if (Files.exists(Paths.get("target/downloads/Syllabus2023.pdf"))) {
+        if (Files.exists(Paths.get("target/downloads/Transcript2023.pdf"))) {
             try {
-                Files.delete(Paths.get("target/downloads/Syllabus2023.pdf"));
+                Files.delete(Paths.get("target/downloads/Transcript2023.pdf"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -23,7 +23,7 @@ class CourseSyllabusTest {
         LoginLogout.login(); // Web Driver and login needed
         try {
             StudentTranscript.find();
-            Path transcriptPath = Paths.get("target//downloads//Syllabus.pdf");
+            Path transcriptPath = Paths.get("target//downloads//Transcript2023.pdf");
             assertTrue(Files.exists(transcriptPath)); // if true, test is passed
         }
         catch(Exception e){

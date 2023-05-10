@@ -21,25 +21,41 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 public class CourseSyllabus {
-    public static void find() throws Exception {
+    public static void find() {
 
         switchTo().window(0); // Back to ltu.se
-        $x("//*[contains(text(), 'Kurs och program')]").click();
-        $x("//*[contains(text(), 'Kurskatalog - programstudenter')]").click();
 
-        // Get window index of latest tab opened, and switch to it
-        int newTabIndex = WebDriverRunner.getWebDriver().getWindowHandles().toArray().length - 1;
-        switchTo().window(newTabIndex);
+        try {
+            $x("//*[contains(text(), 'Kurs och program')]").click();
+            $x("//*[contains(text(), 'Kurskatalog - programstudenter')]").click();
 
-        $x("//*[@id='fritext']").sendKeys("test av it", Keys.ENTER);
-        $x("//*[@id=\"maincontent\"]/div[2]/div[2]/div/h5/a").click(); // test av it search result
-        $x("//*[@id=\"maincontent\"]/article/div[1]/section/div[4]/ul/li[2]/a/span[2]").click(); // varen 2023
-        $x("//*[@id=\"maincontent\"]/article/div[1]/section/div[8]/div/a").click(); // kursplan
+            // Get window index of latest tab opened, and switch to it
+            int newTabIndex = WebDriverRunner.getWebDriver().getWindowHandles().toArray().length - 1;
+            switchTo().window(newTabIndex);
 
-        // Get the link of the element and download the pdf
-        String downloadUrl = $(By.xpath("//*[@id=\"utbkatForm\"]/div[4]/a")).getAttribute("href");
-        File syllabus = new File("target//downloads//Syllabus2023.pdf");
-        download(downloadUrl).renameTo(syllabus);
+            $x("//*[@id='fritext']").sendKeys("test av it", Keys.ENTER);
+            $x("//*[@id=\"maincontent\"]/div[2]/div[2]/div/h5/a").click(); // test av it search result
+            $x("//*[@id=\"maincontent\"]/article/div[1]/section/div[4]/ul/li[2]/a/span[2]").click(); // varen 2023
+            $x("//*[@id=\"maincontent\"]/article/div[1]/section/div[8]/div/a").click(); // kursplan
+
+            try {
+                // Get the link of the element and download the pdf
+                String downloadUrl = $(By.xpath("//*[@id=\"utbkatForm\"]/div[4]/a")).getAttribute("href");
+                File syllabus = new File("target//downloads//Syllabus2023.pdf");
+                download(downloadUrl).renameTo(syllabus);
+            }
+            catch(Exception e){
+                String exceptionMessage = "Syllabus download failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+                EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
+            }
+        }
+        catch(Exception e){
+            String exceptionMessage = "Navigation to syllabus failed, stacktrace:" + System.lineSeparator() + e.getMessage();
+            EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
+            }
+        }
+
+
 
 
 
