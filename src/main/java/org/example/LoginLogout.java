@@ -1,20 +1,9 @@
 package org.example;
 
+import com.codeborne.selenide.Configuration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jna.platform.win32.WinNT;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +15,6 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-import static com.codeborne.selenide.Selenide.screenshot;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
@@ -48,7 +36,7 @@ public class LoginLogout {
                     String logMessage = "Downloads folder created.";
                     EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
                 } catch (IOException e) {
-                    String logMessage = "Unable to create downloads folder.";
+                    String logMessage = "Unable to create downloads folder. Requested files may not be downloaded.";
                     EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
                 }
             }
@@ -59,6 +47,7 @@ public class LoginLogout {
             $x("//*[@id=\"main-nav\"]/div[3]/div/a[1]").shouldBe(visible).click(); // Student
             $x("//*[@id=\"maincontent\"]/div[1]/div/div[1]/div/div/div[3]/a").shouldBe(visible).click(); // Logga in
 
+            // Login process
             try {
                 // Creates a new object from an existing .JSON-file containing LTU credentials
                 File jsonFile = new File("c:\\temp\\ltu.json");

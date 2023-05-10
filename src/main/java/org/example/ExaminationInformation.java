@@ -1,11 +1,9 @@
 package org.example;
 
-import com.codeborne.selenide.ex.TimeoutException;
-
-import java.util.NoSuchElementException;
-
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.switchTo;
+
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 
@@ -27,7 +25,7 @@ public class ExaminationInformation {
 
            switchTo().window(2);
 
-           // Takes a screnshot when the web page is fully loaded
+           // Takes a screenshot when the web page is fully loaded
            $x("/html/body/table[2]/tbody/tr/td/a[1]").shouldBe(visible);
            Screenshot.take("final_examination");
 

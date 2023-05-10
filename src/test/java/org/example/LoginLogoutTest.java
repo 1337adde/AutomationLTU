@@ -1,14 +1,12 @@
 package org.example;
 
-import com.codeborne.selenide.Configuration;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.Test;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LoginLogoutTest {
 
@@ -20,6 +18,14 @@ class LoginLogoutTest {
 
     @Test
     void afterLoginDownloadsFolderShouldExist() {
+        // If the folder already exists, delete it
+        if (Files.exists(Paths.get("target/downloads/"))) {
+            try {
+                Files.delete(Paths.get("target/downloads/"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         LoginLogout.login();
         Path examinationPath = Paths.get("target/downloads/");
         assertTrue(Files.exists(examinationPath)); // if true, test is passed
