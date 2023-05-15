@@ -27,6 +27,7 @@ public class LoginLogout {
             Configuration.holdBrowserOpen = true;
             Configuration.reportsFolder = "/target/downloads";
             Configuration.downloadsFolder = "/target/downloads";
+            Configuration.timeout = 5000; // Makes selenide wait for elements if they don't appear immediately.
 
             // Creates the downloads folder if it does not already exist (Had a bug where the folder wasn't included in the git repository, fixed now but decided to keep the code just in case.)
             Path downloadsFolder = Paths.get("target/downloads");
