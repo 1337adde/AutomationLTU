@@ -2,23 +2,13 @@ package org.example;
 
 import com.codeborne.selenide.*;
 import com.codeborne.selenide.ex.ElementNotFound;
-import com.codeborne.selenide.ex.TimeoutException;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Condition.*;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.NoSuchElementException;
-import java.util.Set;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 public class CourseSyllabus {

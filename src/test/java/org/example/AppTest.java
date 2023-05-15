@@ -1,8 +1,4 @@
 package org.example;
-
-import com.codeborne.selenide.ex.ElementNotFound;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 import org.junit.jupiter.api.*;
 
 import java.nio.file.Files;

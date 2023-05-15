@@ -17,49 +17,43 @@
   </properties>
 
   <dependencies>
-    <dependency>
+    <dependency><!--Selenium-->
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
       <version>4.8.3</version><!--Current version 2023-05-02-->
     </dependency>
+
     <dependency><!--Selenide-->
       <groupId>com.codeborne</groupId>
       <artifactId>selenide</artifactId>
       <version>6.13.0</version><!--Current version 2023-05-02-->
     </dependency>
+
     <dependency><!-- Chrome Web Driver -->
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>5.3.2</version>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>5.8.2</version> <!--Current version 2023-05-01 -->
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.9.2</version>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna-platform</artifactId>
       <version>5.9.0</version>
     </dependency>
+
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-imaging</artifactId>
       <version>1.0-alpha3</version><!--Current version 2023-05-03-->
     </dependency>
+
     <dependency>
       <groupId>com.codeborne</groupId>
       <artifactId>selenide-full-screenshot</artifactId>

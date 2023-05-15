@@ -1,16 +1,7 @@
 package org.example;
 import com.sun.jna.platform.win32.Advapi32;
-import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.Kernel32;
-import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
-import com.sun.jna.Pointer;
-import com.sun.jna.Native;
-import com.sun.jna.Library;
-import com.sun.jna.platform.win32.WinNT.EVENTLOGRECORD;
-import com.sun.jna.ptr.IntByReference;
-import com.sun.jna.ptr.PointerByReference;
-import com.sun.jna.Memory;
 import com.sun.jna.WString;
 public class EventLogger {
 
