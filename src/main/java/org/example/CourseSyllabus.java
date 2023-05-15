@@ -44,6 +44,7 @@ public class CourseSyllabus {
                 String downloadUrl = $(By.xpath("//*[@id=\"utbkatForm\"]/div[4]/a")).getAttribute("href");
                 File syllabus = new File("target//downloads//Syllabus2023.pdf");
                 download(downloadUrl).renameTo(syllabus);
+                EventLogger.log(syllabus + " downloaded successfully.", EVENTLOG_INFORMATION_TYPE);
             }
             catch(ElementNotFound | Exception e){
                 String exceptionMessage = "Syllabus download failed. Stacktrace: " + e.getMessage();

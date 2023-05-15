@@ -1,5 +1,7 @@
 package org.example;
 
+import com.codeborne.selenide.ex.ElementNotFound;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.switchTo;
@@ -28,6 +30,7 @@ public class ExaminationInformation {
            // Takes a screenshot when the web page is fully loaded
            $x("/html/body/table[2]/tbody/tr/td/a[1]").shouldBe(visible);
            Screenshot.take("final_examination");
+           EventLogger.log("Screenshot of exam date taken successfully.", EVENTLOG_INFORMATION_TYPE);
 
            //Log the examination date
            if ($x("/html/body/table[2]/tbody/tr/td/a[1]").exists()) {
@@ -35,8 +38,8 @@ public class ExaminationInformation {
                String logMessage = "Date of examination is " + examDate + ".";
                EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
             }
-       } catch (Throwable t) {
-           String logMessage = "Examination could not be found.";
+       } catch (ElementNotFound | Exception e) {
+           String logMessage = "Examination could not be found. Stacktrace: " + e.getMessage();
            EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
        }
     }

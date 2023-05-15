@@ -26,9 +26,9 @@ class CourseSyllabusTest {
         }
         LoginLogout.login(); // Web Driver and login needed
         try {
-            StudentTranscript.find();
-            Path transcriptPath = Paths.get("target//downloads//Syllabus.pdf");
-            assertTrue(Files.exists(transcriptPath)); // if true, test is passed
+            CourseSyllabus.find();
+            Path syllabusPath = Paths.get("target//downloads//Syllabus.pdf");
+            assertTrue(Files.exists(syllabusPath)); // if true, test is passed
         }
         catch(ElementNotFound | Exception e){
             e.printStackTrace();

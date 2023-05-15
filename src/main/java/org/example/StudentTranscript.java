@@ -46,12 +46,12 @@ public class StudentTranscript {
             try{ // Specifies type of transcript and creates it
 
                 $x("//*[contains(text(), 'Transcripts and certificates')]").click();
-                $("[title='Create']").click();
-                $x("//*[@id=\"intygstyp\"]").click();
-                $x("//*[contains(text(), 'Certificate of Registration')]").click();
-                $x("//*[contains(text(), 'All registrations arranged by programme')]").click();
+             //   $("[title='Create']").click();
+              //  $x("//*[@id=\"intygstyp\"]").click();
+              //  $x("//*[contains(text(), 'Certificate of Registration')]").click();
+              //  $x("//*[contains(text(), 'All registrations arranged by programme')]").click();
                 // Creates the pdf
-                $x("//*[@id=\"main\"]/div/ladok-skapa-intyg/ladok-card/div/div/ladok-card-body/div[3]/div/form/div[3]/div/ladok-skapa-intyg-knapprad/div/button[1]").click();
+             //   $x("//*[@id=\"main\"]/div/ladok-skapa-intyg/ladok-card/div/div/ladok-card-body/div[3]/div/form/div[3]/div/ladok-skapa-intyg-knapprad/div/button[1]").click();
 
 
                 try{ // downloads the pdf
@@ -59,6 +59,7 @@ public class StudentTranscript {
                     String downloadUrl = $(By.xpath("//a[@title='Open PDF-document in a new window'][1]")).getAttribute("href"); // if more than one created PDF, selects the first (latest) in the list
                     File transcript = new File("target//downloads//Transcript2023.pdf");
                     download(downloadUrl).renameTo(transcript);
+                    EventLogger.log(transcript + " downloaded successfully.", EVENTLOG_INFORMATION_TYPE);
                 }
                 catch(ElementNotFound | Exception e){
                     String exceptionMessage = "Transcript download failed. Stacktrace:" + e.getMessage();

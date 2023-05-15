@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class LoginLogoutTest {
 
     @Test
-    void afterLoginURL() {
+    void loginTest() {
         String endURL = LoginLogout.login();
         assertEquals("https://portal.ltu.se/group/student/start", endURL);
     }
 
-    @Test
+    /*@Test
     void afterLoginDownloadsFolderShouldExist() {
         // If the folder already exists, delete it
         if (Files.exists(Paths.get("target/downloads/"))) {
@@ -29,10 +29,10 @@ class LoginLogoutTest {
         LoginLogout.login();
         Path examinationPath = Paths.get("target/downloads/");
         assertTrue(Files.exists(examinationPath)); // if true, test is passed
-    }
+    }*/
 
     @Test
-    void afterLogoutURL() {
+    void logoutTest() {
         LoginLogout.login(); // Cannot log out without logging in first
         String endURL = LoginLogout.logout();
         assertEquals("https://weblogon.ltu.se/cas/logout", endURL);

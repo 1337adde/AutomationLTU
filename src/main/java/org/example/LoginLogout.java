@@ -21,14 +21,14 @@ import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 public class LoginLogout {
     static String endURL = "";
         public static String login() {
-            // Set the path to the WebDriver executable (e.g., ChromeDriver)
+            // Set the path to the WebDriver executable (ChromeDriver)
             WebDriverManager.chromedriver().setup();
             Configuration.browser = "chrome";
             Configuration.holdBrowserOpen = true;
             Configuration.reportsFolder = "/target/downloads";
             Configuration.downloadsFolder = "/target/downloads";
 
-            // Creates the downloads folder if it does not already exist
+            // Creates the downloads folder if it does not already exist (Had a bug where the folder wasn't included in the git repository, fixed now but decided to keep the code just in case.)
             Path downloadsFolder = Paths.get("target/downloads");
             if(!Files.exists(downloadsFolder)) {
                 try {
@@ -62,7 +62,7 @@ public class LoginLogout {
                 $x("//input[@id='password']").sendKeys(password);
                 $x("//input[@name='submit']").click();
 
-                if($x("//*[contains(text(), 'Canvas och schema')]").exists()) {
+                if($x("//*[contains(text(), 'Canvas och schema')]").exists()) { // Canvas och schema is only accessible to someone already logged in.
                     String logMessage = "User " + email + " logged in successfully.";
                     EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
                     endURL = getWebDriver().getCurrentUrl();
@@ -73,7 +73,7 @@ public class LoginLogout {
                 }
 
             } catch (Exception e) {
-                String logMessage = "Unable to login. Make sure credentials are accessible.";
+                String logMessage = "Unable to login. Make sure credentials are accessible. Stacktrace: " + e.getMessage();
                 EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
             }
             return endURL;
@@ -81,14 +81,15 @@ public class LoginLogout {
 
         public static String logout() {
             try {
-                switchTo().window(0);
+                open("https://portal.ltu.se/");
+                //switchTo().window(0);
                 $x("//*[@id=\"_145_userAvatar\"]/a").shouldBe(visible).click(); // User name
                 $x("//li[contains(@class, 'sign-out')]").shouldBe(visible).click(); // Logout
                 String logMessage = "User logged out successfully.";
                 EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
                 return endURL = getWebDriver().getCurrentUrl();
             } catch (Exception e) {
-                String logMessage = "Unable to logout.";
+                String logMessage = "Unable to logout. Stacktrace: " + e.getMessage();
                 EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
                 return endURL = getWebDriver().getCurrentUrl();
             }

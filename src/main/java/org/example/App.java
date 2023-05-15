@@ -13,10 +13,10 @@ public class App
     public static void main( String[] args ){
 
         LoginLogout.login();
-        //ExaminationInformation.find();
-       // CourseSyllabus.find();
+        ExaminationInformation.find();
+       CourseSyllabus.find();
         StudentTranscript.find();
-      //  LoginLogout.logout();
+      LoginLogout.logout();
 
     }
 }
