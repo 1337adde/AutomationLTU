@@ -16,7 +16,7 @@ public class AppTest {
     @BeforeEach
     @Order(1)
     void loginTest() {
-        if(!loggedIn) { // Will run if testing individual test methods, only once if running the whole test.
+        if(!loggedIn) { // Will run first if testing individual test methods, only once if running the whole test.
             String endURL = LoginLogout.login();
             assertEquals("https://portal.ltu.se/group/student/start", endURL);
             loggedIn = true;
@@ -26,18 +26,25 @@ public class AppTest {
     @Test
     @Order(2)
     void examinationInformationTest() {
+        Path examinationPath = null;
         // If the file already exists, delete it
         if (Files.exists(Paths.get("target/downloads/final_examination.jpeg"))) {
             try {
                 Files.delete(Paths.get("target/downloads/final_examination.jpeg"));
             } catch (Exception e) {
-                e.printStackTrace();
+                String exceptionMessage = "Test unable to delete / check for final_examination.jpeg. Stacktrace:" + e.getMessage();
+                EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
         }
-        // If find() works, final_examination.jpeg should be downloaded
-        ExaminationInformation.find();
-        Path examinationPath = Paths.get("target/downloads/final_examination.jpeg");
-        assertTrue(Files.exists(examinationPath)); // if true, test is passed
+        try {
+            ExaminationInformation.find();
+            examinationPath = Paths.get("target/downloads/final_examination.jpeg");
+            assertTrue(Files.exists(examinationPath)); // if true, test is passed
+        }
+        catch(AssertionError | Exception e){
+            String exceptionMessage = "Test unable to find final_examination.jpeg. examinationPath == " + examinationPath;
+            EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
+        }
     }
 
     @Test
@@ -49,7 +56,7 @@ public class AppTest {
             try {
                 Files.delete(Paths.get("target/downloads/Syllabus2023.pdf"));
             } catch (Exception e) {
-                String exceptionMessage = "Test unable to delete Syllabus2023.pdf. Stacktrace:" + e.getMessage();
+                String exceptionMessage = "Test unable to delete / check for Syllabus2023.pdf. Stacktrace:" + e.getMessage();
                 EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
         }
@@ -61,29 +68,29 @@ public class AppTest {
         catch(AssertionError | Exception e){
             String exceptionMessage = "Test unable to find Syllabus2023.pdf. syllabusPath == " + syllabusPath;
             EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
-            // Exceptions are logged in Event Viewer
         }
     }
 
     @Test
     @Order(4)
     void studentTranscriptTest() {
+        Path transcriptPath = null;
         // If the file already exists, delete it
         if (Files.exists(Paths.get("target/downloads/Transcript2023.pdf"))) {
             try {
                 Files.delete(Paths.get("target/downloads/Transcript2023.pdf"));
             } catch (Exception e) {
-                String exceptionMessage = "Test unable to modify / check for Transcript2023.pdf. Stacktrace:" + e.getMessage();
+                String exceptionMessage = "Test unable to delete / check for Transcript2023.pdf. Stacktrace:" + e.getMessage();
                 EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
             }
         }
         try {
             StudentTranscript.find();
-            Path transcriptPath = Paths.get("target//downloads//Transcript2023.pdf");
+            transcriptPath = Paths.get("target//downloads//Transcript2023.pdf");
             assertTrue(Files.exists(transcriptPath)); // if true, test is passed
         }
         catch(Exception e){
-            String exceptionMessage = "Test of StudentTranscript unsuccessful, see earlier logs.";
+            String exceptionMessage = "Test unable to find Transcript2023.pdf. transcriptPath == " + transcriptPath;
             EventLogger.log(exceptionMessage, EVENTLOG_ERROR_TYPE);
         }
     }

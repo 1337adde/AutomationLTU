@@ -39,7 +39,7 @@ public class ExaminationInformation {
                EventLogger.log(logMessage, EVENTLOG_INFORMATION_TYPE);
             }
        } catch (ElementNotFound | Exception e) {
-           String logMessage = "Examination could not be found. Stacktrace: " + e.getMessage();
+           String logMessage = "Examination  date could not be found. Stacktrace: " + e.getMessage();
            EventLogger.log(logMessage, EVENTLOG_ERROR_TYPE);
        }
     }
