@@ -17,11 +17,6 @@
   </properties>
 
   <dependencies>
-    <dependency><!--Selenium-->
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>4.8.3</version><!--Current version 2023-05-02-->
-    </dependency>
 
     <dependency><!--Selenide-->
       <groupId>com.codeborne</groupId>
