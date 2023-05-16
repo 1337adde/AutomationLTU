@@ -6,9 +6,6 @@ import static com.codeborne.selenide.Selenide.*;
 
 import java.io.File;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_ERROR_TYPE;
 import static com.sun.jna.platform.win32.WinNT.EVENTLOG_INFORMATION_TYPE;
 public class CourseSyllabus {
@@ -24,14 +21,14 @@ public class CourseSyllabus {
             int newTabIndex = WebDriverRunner.getWebDriver().getWindowHandles().toArray().length - 1;
             switchTo().window(newTabIndex);
 
-            $x("//*[@id='fritext']").sendKeys("test av it", Keys.ENTER);
+            $x("//*[@id='fritext']").setValue("test av it").pressEnter();
             $x("//*[@id=\"maincontent\"]/div[2]/div[2]/div/h5/a").click(); // test av it search result
             $x("//*[@id=\"maincontent\"]/article/div[1]/section/div[4]/ul/li[2]/a/span[2]").click(); // varen 2023
             $x("//*[@id=\"maincontent\"]/article/div[1]/section/div[8]/div/a").click(); // kursplan
 
             try {
                 // Get the link of the element and download the pdf
-                String downloadUrl = $(By.xpath("//*[@id=\"utbkatForm\"]/div[4]/a")).getAttribute("href");
+                String downloadUrl = $("#utbkatForm div:nth-child(4) a").getAttribute("href");
                 File syllabus = new File("target//downloads//Syllabus2023.pdf");
                 download(downloadUrl).renameTo(syllabus);
                 EventLogger.log(syllabus + " downloaded successfully.", EVENTLOG_INFORMATION_TYPE);

@@ -1,6 +1,5 @@
 package org.example;
 import com.codeborne.selenide.ex.ElementNotFound;
-import org.openqa.selenium.By;
 import java.io.File;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
@@ -50,7 +49,7 @@ public class StudentTranscript {
 
                 try{ // downloads the pdf
 
-                    String downloadUrl = $(By.xpath("//a[@title='Open PDF-document in a new window'][1]")).getAttribute("href"); // if more than one created PDF, selects the first (latest) in the list
+                    String downloadUrl = $$("a[title='Open PDF-document in a new window']").get(0).getAttribute("href"); // if more than one created PDF, selects the first (latest) in the list
                     File transcript = new File("target//downloads//Transcript2023.pdf");
                     download(downloadUrl).renameTo(transcript);
                     EventLogger.log(transcript + " downloaded successfully.", EVENTLOG_INFORMATION_TYPE);
